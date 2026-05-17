@@ -22,14 +22,21 @@ iyo diyaarinta imtixaanka dowladda si heer sare ah.
 Mustaqbalkaaga maanta ayuu bilaabanayaa — Ku dadaal, ku guuleyso! 🌟
 *Waa lagugu fasaxay!*`;
 
+const puppeteerOptions = {
+    args: ['--no-sandbox']
+};
+
+if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+    puppeteerOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+} else if (process.platform === 'win32') {
+    puppeteerOptions.executablePath = 'C:\\Users\\hp\\.cache\\puppeteer\\chrome\\win64-150.0.7828.0\\chrome-win64\\chrome.exe';
+}
+
 const client = new Client({
     authStrategy: new LocalAuth({
         dataPath: __dirname // Use current folder for auth
     }),
-    puppeteer: {
-        executablePath: 'C:\\Users\\hp\\.cache\\puppeteer\\chrome\\win64-150.0.7828.0\\chrome-win64\\chrome.exe',
-        args: ['--no-sandbox']
-    }
+    puppeteer: puppeteerOptions
 });
 
 client.on('qr', (qr) => {

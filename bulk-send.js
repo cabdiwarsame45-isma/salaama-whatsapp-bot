@@ -44,15 +44,21 @@ ${APP_LINK}
 
 Guul ayaan kuu rajaynaynaa! 🚀`;
 
-// Initialize WhatsApp Client using the existing local session
+const puppeteerOptions = {
+    args: ['--no-sandbox']
+};
+
+if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+    puppeteerOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+} else if (process.platform === 'win32') {
+    puppeteerOptions.executablePath = 'C:\\Users\\hp\\.cache\\puppeteer\\chrome\\win64-150.0.7828.0\\chrome-win64\\chrome.exe';
+}
+
 const client = new Client({
     authStrategy: new LocalAuth({
         dataPath: __dirname // Looking for .wwebjs_auth in this folder
     }),
-    puppeteer: {
-        executablePath: 'C:\\Users\\hp\\.cache\\puppeteer\\chrome\\win64-150.0.7828.0\\chrome-win64\\chrome.exe',
-        args: ['--no-sandbox']
-    }
+    puppeteer: puppeteerOptions
 });
 
 client.on('qr', (qr) => {

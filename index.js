@@ -13,14 +13,21 @@ const PORT = process.env.PORT || 3001;
 let qrCodeDataURL = null;
 let isReady = false;
 
-// Initialize WhatsApp Client
+const puppeteerOptions = {
+  args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+};
+
+if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+  puppeteerOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+} else if (process.platform === 'win32') {
+  puppeteerOptions.executablePath = 'C:\\Users\\hp\\.cache\\puppeteer\\chrome\\win64-150.0.7828.0\\chrome-win64\\chrome.exe';
+}
+
 const client = new Client({
   authStrategy: new LocalAuth(),
-  puppeteer: {
-    executablePath: 'C:\\Users\\hp\\.cache\\puppeteer\\chrome\\win64-150.0.7828.0\\chrome-win64\\chrome.exe',
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-  }
+  puppeteer: puppeteerOptions
 });
+
 
 client.on('qr', async (qr) => {
   console.log('=========================================');
