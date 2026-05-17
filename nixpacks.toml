@@ -1,0 +1,9 @@
+[providers]
+  node = true
+
+[phases.setup]
+  nixPkgs = ["...", "chromium", "nss", "freetype", "harfbuzz", "ttf-freefont"]
+
+[variables]
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
+  PUPPETEER_EXECUTABLE_PATH = "/nix/var/nix/profiles/default/bin/chromium"
